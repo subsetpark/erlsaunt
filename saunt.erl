@@ -1,15 +1,12 @@
 -module(saunt).
--export_type([hand/0, card/0]).
+-export_type([card/0]).
 -export([test/0, hand_by_suit/1, longest/1, random_hand/0]).
-
--define(SUITS, [spades, clubs, hearts, diamonds]).
--define(RANKS, [7, 8, 9, 10, 11, 12, 13, 14]).
--define(DECK, [{Rank, Suit} || Rank <- ?RANKS, Suit <- ?SUITS]).
+-include("deck.hrl").
 
 -type card() :: {rank(), suit()}.
 -type rank() :: [6..14].
 -type suit() :: spades | clubs | hearts | diamonds.
-
+-type hand() :: [card()].
 % Piquet consists of three stages:
 %   - Exchange: The players take turns exchanging cards from the talon. Elder
 %   may take up to 5 cards; Younger may take whatever's left (usually 3).
@@ -25,10 +22,6 @@ compare_ranks(_, _) -> even.
 trump_hand({_, LeadSuit}=Lead, {_, FollowSuit}) when LeadSuit /= FollowSuit -> Lead;
 trump_hand({LeadRank, _}=Lead, {FollowRank, _}) when LeadRank > FollowRank -> Lead;
 trump_hand(_, Follow) -> Follow.
-
--type hand() :: [card()].
-
-
 
 % Helper Functions
 -spec hand_by_suit(hand()) -> [[card()]].
@@ -56,5 +49,6 @@ test() ->
     point:test(),
     sequence:test(),
     set:test(),
+    play:test(),
     ok.
 
