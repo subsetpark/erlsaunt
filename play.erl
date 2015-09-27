@@ -20,11 +20,16 @@ discard(Discards, Hand, Deck) ->
     {TopCards, Rest} = lists:split(DiscardCount, Deck),
     {lists:flatten([TopCards|(Hand -- Discards)]), Rest}.
 
--define(DISCARD, [{6, clubs}, {7, clubs}]).
+-define(DISCARD, [{8,clubs},{10,diamonds},{7,spades},{8,spades},{8,hearts}]).
+-define(DISCARD_HAND, [{8,clubs}, {11,clubs}, {10,diamonds}, {11,diamonds},
+                       {12,diamonds}, {13,diamonds}, {8,hearts}, {11,hearts},
+                       {12,hearts}, {7,spades}, {8,spades}, {13,spades}]).
 test() ->
     % discard test
-    {NewHand, Rest} = discard(?DISCARD, ?SAMPLE_HAND, ?TALON),
-    false = lists:any(fun(D) -> lists:member(D, NewHand) end, ?DISCARD),
+    {Discards, Hand} = {?DISCARD, ?DISCARD_HAND},
+    {5, 12} = {length(Discards), length(Hand)},
+    {NewHand, Rest} = discard(Discards, Hand, ?TALON),
+    false = lists:any(fun(D) -> lists:member(D, NewHand) end, Discards),
     false = lists:any(fun(C) -> lists:member(C, Rest) end, NewHand),
     % deal test
     {E, Y, R} = deal(),

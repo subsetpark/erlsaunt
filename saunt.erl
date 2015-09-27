@@ -1,6 +1,6 @@
 -module(saunt).
 -export_type([card/0]).
--export([test/0, hand_by_suit/1, longest/1, random_hand/0]).
+-export([test/0, hand_by_suit/1, longest/1, sort_hand/1, random_hand/0]).
 -include("deck.hrl").
 
 -type card() :: {rank(), suit()}.
@@ -36,6 +36,12 @@ longest(Ls) ->
                      end
              end,
     lists:foldl(Longer, [], Ls).
+
+sort_hand(Hand) ->
+    Key = fun({R, S}, {R2, S2}) ->
+                  {S, R} =< {S2, R2}
+          end,
+    lists:sort(Key, Hand).
 
 random_hand() ->
     Shuffled = [X||{_,X} <- lists:sort([ {random:uniform(), N} || N <- ?DECK])],
