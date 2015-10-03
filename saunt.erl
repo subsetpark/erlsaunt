@@ -13,16 +13,6 @@
 %   - Declaration: The players announce their Point, Sequence, and Sets.
 %   - Trumps: The players play out their hands at trumps.
 
--spec compare_ranks(card(), card()) -> card() | even.
-compare_ranks({LeftRank, _}, {RightRank, _}) when LeftRank > RightRank -> LeftRank;
-compare_ranks({LeftRank, _}, {RightRank, _}) when RightRank > LeftRank -> RightRank;
-compare_ranks(_, _) -> even.
-
--spec trump_hand(Lead :: card(), Follow :: card()) -> Winner :: card().
-trump_hand({_, LeadSuit}=Lead, {_, FollowSuit}) when LeadSuit /= FollowSuit -> Lead;
-trump_hand({LeadRank, _}=Lead, {FollowRank, _}) when LeadRank > FollowRank -> Lead;
-trump_hand(_, Follow) -> Follow.
-
 % Helper Functions
 -spec hand_by_suit(hand()) -> [[card()]].
 hand_by_suit(Hand) ->
